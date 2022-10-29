@@ -44,10 +44,12 @@ const MixPage: NextPage<Props> = ({ mix }) => {
     <header className="bg-violet-900 text-white">
       <h1 className="font-bold py-4 text-center">Vou misturar...</h1>
     </header>
-    <section className="bg-violet-500 text-white text-center py-6">
-      <h2 className="font-bold text-lg mb-3">
-      { productA.name } <span className="font-normal text-sm px-1">com</span> { productB.name }
-      </h2>
+    <section className="bg-violet-900">
+      <section className="bg-violet-500 text-white text-center py-6 rounded-t-3xl">
+        <h2 className="font-bold text-lg">
+        { productA.name } <span className="font-normal text-sm px-1">com</span> { productB.name }
+        </h2>
+      </section>
     </section>
     <section className={`py-9 text-center ${canMixClassName}`}>
       <h2 className="font-bold text-2xl">{ canMixFriendlyText }</h2>
