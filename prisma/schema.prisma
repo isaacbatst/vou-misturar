@@ -20,6 +20,7 @@ model Mix {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   canMix      CanMixAnswer
   description String
+  why         String
   products    Product[]
   sources     Source[]
   slug        String       @unique
@@ -27,7 +28,7 @@ model Mix {
 
 type Source {
   text String
-  link  String
+  link String
 }
 
 type Product {

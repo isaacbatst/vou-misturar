@@ -1,4 +1,5 @@
 import { CanMixAnswer } from "@prisma/client";
+import Head from "next/head";
 import Link from "next/link";
 import prisma from "../../prisma";
 
@@ -31,10 +32,12 @@ const MixPage = async ({ params: { slug } }: Props) => {
 
   if(!mix) throw new Error('MIX_NOT_FOUND');
 
-  const { canMix, description, products: [productA, productB], sources } = mix;
+  const { canMix, description, products: [productA, productB], sources, why } = mix;
   const { friendlyText: canMixFriendlyText, className: canMixClassName } = canMixMap[canMix];
 
   return <div>
+    <Head>
+    </Head>
     <header className="bg-violet-900 text-white">
       <h1 className="font-bold py-4 text-center">Vou misturar...</h1>
     </header>
@@ -48,7 +51,7 @@ const MixPage = async ({ params: { slug } }: Props) => {
     </section>
     <section className="bg-stone-100 py-5 px-2 text-center">
       <h2 className="font-bold text-lg mb-3">Por que?</h2>
-      <div className="font-light text-sm">{ description }</div>
+      <div className="font-light text-sm">{ why }</div>
     </section>
     <section className="bg-white py-5 px-2 text-center">
       <h2 className="font-bold text-lg mb-3">Fontes</h2>
