@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import { Inter } from '@next/font/google'
-const inter = Inter()
+const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
   // Layouts must accept a children prop.
