@@ -1,10 +1,11 @@
-import { CanMixAnswer } from "@prisma/client";
+import { CanMixAnswer, Mix } from "@prisma/client";
+import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import prisma from "../../prisma";
+import prisma from "../prisma";
 
 type Props = {
-  params: { slug: string }
+  mix: Mix
 }
 
 type CanMixMap = Record<CanMixAnswer, {
@@ -27,24 +28,26 @@ const canMixMap: CanMixMap = {
   }
 }
 
-const MixPage = async ({ params: { slug } }: Props) => {
-  const mix = await prisma.mix.findUnique({ where: { slug } })
-
-  if(!mix) throw new Error('MIX_NOT_FOUND');
-
+const MixPage: NextPage<Props> = ({ mix }) => {
   const { canMix, description, products: [productA, productB], sources, why } = mix;
   const { friendlyText: canMixFriendlyText, className: canMixClassName } = canMixMap[canMix];
 
   return <div>
     <Head>
+      <title>Pode misturar {productA.name} e {productB.name}?</title>
+      <meta
+          name="description"
+          content={description}
+          key="desc"
+        />
     </Head>
     <header className="bg-violet-900 text-white">
       <h1 className="font-bold py-4 text-center">Vou misturar...</h1>
     </header>
     <section className="bg-violet-500 text-white text-center py-6">
-      <h2 className="font-bold text-lg mb-3">{ productA.name }</h2>
-      <div className="font-normal text-sm mb-3">com</div>
-      <h2 className="font-bold text-lg mb-3">{ productB.name }</h2>
+      <h2 className="font-bold text-lg mb-3">
+      { productA.name } <span className="font-normal text-sm px-1">com</span> { productB.name }
+      </h2>
     </section>
     <section className={`py-9 text-center ${canMixClassName}`}>
       <h2 className="font-bold text-2xl">{ canMixFriendlyText }</h2>
@@ -71,10 +74,27 @@ const MixPage = async ({ params: { slug } }: Props) => {
 
 export default MixPage;
 
-export async function generateStaticParams() {
+
+export const getStaticPaths = async () => {
   const mixes = await prisma.mix.findMany();
 
-  return mixes.map((mix) => ({
-    slug: mix.slug,
-  }));
+  return {
+    paths: mixes.map(mix => ({ params: { slug: mix.slug } })),
+    fallback: false, // can also be true or 'blocking'
+  }
+}
+
+type Params = { slug: string }
+
+export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
+  const mix = await prisma.mix.findUnique({ where: { slug: context.params?.slug } })
+
+  if(!mix) throw new Error('MIX_NOT_FOUND')
+
+  return {
+    // Passed to the page component as props
+    props: {  
+      mix
+    },
+  }
 }
