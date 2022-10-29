@@ -26,7 +26,7 @@ model Mix {
 }
 
 type Source {
-  title String
+  text String
   link  String
 }
 

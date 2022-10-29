@@ -1,4 +1,6 @@
 import '../styles/globals.css';
+import { Inter } from '@next/font/google'
+const inter = Inter()
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -8,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" className={inter.className}>
       <head>
         <title>Vou misturar</title>
       </head>
