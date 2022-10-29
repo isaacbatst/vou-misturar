@@ -51,8 +51,8 @@ const MixPage: NextPage<Props> = ({ mix }) => {
         </h2>
       </section>
     </section>
-    <section className={`py-9 text-center ${canMixClassName}`}>
-      <h2 className="font-bold text-2xl">{ canMixFriendlyText }</h2>
+    <section className={`py-6 text-center ${canMixClassName}`}>
+      <h2 className="font-bold text-lg">{ canMixFriendlyText }</h2>
     </section>
     <section className="bg-stone-100 py-5 px-2 text-center">
       <h2 className="font-bold text-lg mb-3">Por que?</h2>
